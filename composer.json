@@ -1,0 +1,21 @@
+{
+  "name": "uban/Login",
+  "description": "Uban登录程序逻辑提取",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "uban",
+      "email": "server@ubanjiaoyu.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "uban\\": "src/"
+    }
+  }
+}
