@@ -1,5 +1,5 @@
 {
-  "name": "uban/Login",
+  "name": "uban/login",
   "description": "Uban登录程序逻辑提取",
   "type": "library",
   "license": "MIT",
