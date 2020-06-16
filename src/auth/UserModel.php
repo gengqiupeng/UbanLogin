@@ -4,9 +4,21 @@ namespace uban\auth;
 
 class UserModel
 {
+    /**
+     * @var string 用户昵称
+     */
     private $name;
+    /**
+     * @var []string 用户角色
+     */
     private $role;
+    /**
+     * @var string 用户邮箱
+     */
     private $email;
+    /**
+     * @var string 用户账户
+     */
     private $account;
 
     /**

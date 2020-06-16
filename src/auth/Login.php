@@ -15,9 +15,10 @@ abstract class Login extends BaseClass
      * 用户登录
      * @param $account string 用户名
      * @param $password string 密码
+     * @param $formatUser string 回调方法
      * @return mixed
      */
-    public abstract function login($account, $password);
+    public abstract function login($account, $password,$formatUser);
 
     public abstract function register();
 
