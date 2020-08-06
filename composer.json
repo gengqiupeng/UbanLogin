@@ -14,9 +14,18 @@
     "php": ">=7.1",
     "topthink/framework": "^6.0.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2"
+  },
   "autoload": {
     "psr-4": {
       "uban\\": "src/"
+    }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
     }
   }
 }
