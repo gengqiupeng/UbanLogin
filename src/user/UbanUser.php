@@ -38,4 +38,20 @@ class UbanUser extends User
         }
         return $result;
     }
+
+    public function addRoleByData($userId, $role = [])
+    {
+        $config = $this->getConfig();
+        if (!is_array($role)) {
+            $role = [$role];
+        }
+        foreach ($role as $item) {
+            $oldRole = Db::name($config->roleTable)->where($config->roleUserIdColumn, $userId)
+                ->whre($config->roleIdColumn, $item)
+                ->find();
+            if (empty($oldRole)) {
+                Db::name($config->roleTable)->insert([$config->roleUserIdColumn => $userId, $config->roleIdColumn, $item]);
+            }
+        }
+    }
 }

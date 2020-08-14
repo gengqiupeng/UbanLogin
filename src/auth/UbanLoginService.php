@@ -50,7 +50,7 @@ class UbanLoginService extends Login
         $user_id = $this->user->getId();
         $config = $this->getConfig();
         $table = $config->roleTable;
-        $userIdColumn = $config->userIdColumn;
+        $userIdColumn = $config->roleUserIdColumn;
         $roleColumn = $config->roleIdColumn;
         $roles = Db::name($table)->where("$userIdColumn=$user_id")->select()->toArray();
         $role = array_column($roles, $roleColumn);

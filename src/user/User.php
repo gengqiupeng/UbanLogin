@@ -18,4 +18,6 @@ abstract class User extends BaseClass
      * @return boolean 保存结果
      */
     public abstract function save($data, $primary_key = '');
+
+    public abstract function addRoleByData($userId,$role);
 }
