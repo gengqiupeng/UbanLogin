@@ -80,7 +80,7 @@ class UbanUserModel implements \JsonSerializable
     }
 
     /**
-     * @return mixed
+     * @return int[]
      */
     public function getRole()
     {

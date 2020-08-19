@@ -6,7 +6,8 @@ namespace uban\base;
  * @property $userTable;
  * @property $accountColumn;
  * @property $passwordColumn;
- * @property $roleTable;
+ * @property $userIdColumn;
+ * @property $userRoleTable;
  * @property $roleUserIdColumn;
  * @property $roleIdColumn;
  * Class Config
