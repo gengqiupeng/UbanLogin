@@ -24,6 +24,9 @@ class UbanLoginService extends Login
             ->where("$passwordColumn", $password)
             ->find();
         $this->rawUser = $user;
+        if (empty($user)) {
+            return false;
+        }
         $this->user = $formatUser($user);
         $this->save();
         $this->user->setToken(Session::getId());
