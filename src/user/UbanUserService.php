@@ -61,9 +61,15 @@ class UbanUserService extends User
      * 通过角色获取用户列表
      * @param $roles []int 角色列表
      * @param $field
+     * @param array $where
+     * @param string $whereRaw
+     * @return \think\Collection
      * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    public function getUsersByRoleTable($roles, $field)
+    public function getUsersByRoleTable($roles, $field, $where = [], $whereRaw = '1')
     {
         $config = $this->getConfig();
         $userTable = $config->userTable;
@@ -73,7 +79,10 @@ class UbanUserService extends User
         $userIdColumn = $config->userIdColumn;
         return Db::name($userRoleTable)->alias('ur')
             ->join("$userTable u", "ur.$roleUserIdColumn = u.$userIdColumn")
+            ->where($where)
+            ->whereRaw($whereRaw)
             ->whereIn("$roleIdColumn", $roles)
+            ->field($userIdColumn)
             ->field($field)
             ->select();
     }
