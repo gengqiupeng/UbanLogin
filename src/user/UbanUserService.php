@@ -82,7 +82,7 @@ class UbanUserService extends User
             ->where($where)
             ->whereRaw($whereRaw)
             ->whereIn("$roleIdColumn", $roles)
-            ->field($userIdColumn)
+            ->field("u.$userIdColumn")
             ->field($field)
             ->select();
     }
