@@ -36,7 +36,8 @@ class UbanUserService extends User
         if (empty($oldData)) {
             $result = Db::name($table)->insertGetId($data);
         } else {
-            $result = Db::name($table)->where($primary_key, $data[$primary_key])->update($data);
+            Db::name($table)->where($primary_key, $data[$primary_key])->update($data);
+            return $oldData[$config->userIdColumn];
         }
         return $result;
     }
