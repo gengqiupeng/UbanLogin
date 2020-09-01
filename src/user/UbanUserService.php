@@ -87,4 +87,53 @@ class UbanUserService extends User
             ->field($field)
             ->select();
     }
+
+    /**
+     * 获取用户信息和角色
+     * @param $field
+     * @param $where
+     * @return array|false
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getUserAndRoleByWhere($field, $where)
+    {
+        $config = $this->getConfig();
+        $userTable = $config->userTable;
+        $userRoleTable = $config->userRoleTable;
+        $roleIdColumn = $config->roleIdColumn;
+        $roleUserIdColumn = $config->roleUserIdColumn;
+        $userIdColumn = $config->userIdColumn;
+        $user = Db::name($userTable)->field($field)->where($where)->find();
+        //获取角色
+        if (empty($user)) {
+            return false;
+        }
+        $roles = Db::name($userRoleTable)
+            ->field($roleIdColumn)
+            ->where($roleUserIdColumn, $user[$userIdColumn])
+            ->select()->toArray();
+        $user['roles'] = array_column($roles, $roleIdColumn);
+        return $user;
+    }
+
+    /**
+     * 根据email获取用户信息
+     * @param $field
+     * @param $email
+     * @return array|false
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getUserAndRoleByEmail($field, $email)
+    {
+        $config = $this->getConfig();
+        $account = $config->accountColumn;
+        $where = "$account = '$email'";
+        return $this->getUserAndRoleByWhere($field, $where);
+    }
 }
