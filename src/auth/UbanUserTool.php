@@ -12,6 +12,11 @@ class UbanUserTool
         return !empty(self::getUser());
     }
 
+    public static function loginOut()
+    {
+        Session::delete('uban_user');
+    }
+
     /**
      * @return UbanUserModel
      */
