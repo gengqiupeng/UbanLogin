@@ -33,6 +33,35 @@ class UbanLoginService extends Login
         return $user;
     }
 
+    /**
+     * 通过token登录
+     * @param $token
+     * @param $formatUser
+     * @return array|bool|\think\Model|null
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function tokenIn($token,$formatUser)
+    {
+        $config = $this->getConfig();
+        $table = $config->userTable;
+        $tokenColumn = $config->tokenColumn;
+        $tokenExpire = $config->tokenExpire;
+        $user = Db::name($table)->where("$tokenColumn", $token)
+            ->where("$tokenExpire",">", time())
+            ->find();
+        $this->rawUser = $user;
+        if (empty($user)) {
+            return false;
+        }
+        $this->user = $formatUser($user);
+        $this->save();
+        $this->user->setToken(Session::getId());
+        return $user;
+    }
+
     public function register()
     {
         // TODO: Implement register() method.

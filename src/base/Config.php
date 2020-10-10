@@ -10,6 +10,8 @@ namespace uban\base;
  * @property $userRoleTable;
  * @property $roleUserIdColumn;
  * @property $roleIdColumn;
+ * @property $tokenColumn;
+ * @property $tokenExpire;
  * Class Config
  * @package uban\base
  */
