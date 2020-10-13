@@ -14,22 +14,40 @@ class UbanLoginService extends Login
 {
     private $rawUser;
 
+    private $config;
+    private $table;
+    private $accountColumn;
+    private $passwordColumn;
+    private $tokenColumn;
+    private $tokenExpire;
+    private $userIdColumn;
+    private $roleColumn;
+
+    public function __construct()
+    {
+        $this->config = $this->getConfig();
+        $this->table = $this->config->userTable;
+        $this->accountColumn = $this->config->accountColumn;
+        $this->passwordColumn = $this->config->passwordColumn;
+        $this->tokenColumn = $this->config->tokenColumn;
+        $this->tokenExpire = $this->config->tokenExpire;
+
+        $this->userIdColumn = $this->config->roleUserIdColumn;
+        $this->roleColumn = $this->config->roleIdColumn;
+    }
+
     public function login($account, $password, $formatUser)
     {
-        $config = $this->getConfig();
-        $table = $config->userTable;
-        $accountColumn = $config->accountColumn;
-        $passwordColumn = $config->passwordColumn;
-        $user = Db::name($table)->where("$accountColumn", $account)
-            ->where("$passwordColumn", $password)
+        $user = Db::name($this->table)->where("$this->accountColumn", $account)
+            ->where("$this->passwordColumn", $password)
             ->find();
         $this->rawUser = $user;
         if (empty($user)) {
             return false;
         }
         $this->user = $formatUser($user);
-        $this->save();
         $this->user->setToken(Session::getId());
+        UbanUserTool::setUser($this->user);
         return $user;
     }
 
@@ -43,23 +61,33 @@ class UbanLoginService extends Login
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function tokenIn($token,$formatUser)
+    public function tokenIn($token, $formatUser)
     {
-        $config = $this->getConfig();
-        $table = $config->userTable;
-        $tokenColumn = $config->tokenColumn;
-        $tokenExpire = $config->tokenExpire;
-        $user = Db::name($table)->where("$tokenColumn", $token)
-            ->where("$tokenExpire",">", time())
+        $user = Db::name($this->table)->where("$this->tokenColumn", $token)
+            ->where("$this->tokenExpire", ">", time())
             ->find();
         $this->rawUser = $user;
         if (empty($user)) {
             return false;
         }
         $this->user = $formatUser($user);
-        $this->save();
+        UbanUserTool::setUser($this->user);
         $this->user->setToken(Session::getId());
         return $user;
+    }
+
+    /**
+     * 更新用户信息缓存
+     * @param $where array
+     * @param $formatUser
+     */
+    public function updateUserCache($where, $formatUser)
+    {
+        $rawUser = Db::name($this->table)->where($where)->find();
+        $this->user = $formatUser($rawUser);
+        $this->user->setToken(Session::getId());
+        UbanUserTool::setUser($this->user);
+        $this->setRoleByData();
     }
 
     public function register()
@@ -80,14 +108,13 @@ class UbanLoginService extends Login
     public function setRoleByData()
     {
         $user_id = $this->user->getId();
-        $config = $this->getConfig();
-        $table = $config->userRoleTable;
-        $userIdColumn = $config->roleUserIdColumn;
-        $roleColumn = $config->roleIdColumn;
+        $table = $this->config->userRoleTable;
+        $userIdColumn = $this->config->roleUserIdColumn;
+        $roleColumn = $this->config->roleIdColumn;
         $roles = Db::name($table)->where("$userIdColumn=$user_id")->select()->toArray();
         $role = array_column($roles, $roleColumn);
         $this->user->setRole($role);
-        $this->save();
+        UbanUserTool::setUser($this->user);
         return $this;
     }
 
@@ -103,11 +130,4 @@ class UbanLoginService extends Login
         return $this;
     }
 
-    /**
-     * 保存登录信息
-     */
-    public function save()
-    {
-        Session::set('uban_user', $this->user);
-    }
 }

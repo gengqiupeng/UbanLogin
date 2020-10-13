@@ -24,4 +24,9 @@ class UbanUserTool
     {
         return Session::get('uban_user');
     }
+
+    public static function setUser($user)
+    {
+        Session::set('uban_user', $user);
+    }
 }
