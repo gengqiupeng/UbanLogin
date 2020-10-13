@@ -25,16 +25,37 @@ class UbanUserModel implements \JsonSerializable
      * @var int 用户ID
      */
     private $id;
-    
+
     /**
      * @var string 请求token
      */
     private $token;
 
     /**
+     * @var string 头像
+     */
+    private $avatar;
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -42,7 +63,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @param int $id
      */
-    public function setId(int $id)
+    public function setId( $id)
     {
         $this->id = $id;
     }
@@ -50,7 +71,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @return string
      */
-    public function getToken(): string
+    public function getToken()
     {
         return $this->token;
     }
@@ -58,7 +79,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @param string $token
      */
-    public function setToken(string $token)
+    public function setToken( $token)
     {
         $this->token = $token;
     }
