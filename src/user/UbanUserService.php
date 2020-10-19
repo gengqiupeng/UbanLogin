@@ -109,7 +109,10 @@ class UbanUserService extends User
         $roleIdColumn = $config->roleIdColumn;
         $roleUserIdColumn = $config->roleUserIdColumn;
         $userIdColumn = $config->userIdColumn;
-        $user = Db::name($userTable)->field($field)->where($where)->find();
+        $user = Db::name($userTable)
+            ->field($field)
+            ->field($userIdColumn)
+            ->where($where)->find();
         //获取角色
         if (empty($user)) {
             return false;
