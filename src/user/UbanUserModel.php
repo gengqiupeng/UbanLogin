@@ -35,6 +35,23 @@ class UbanUserModel implements \JsonSerializable
      * @var string 头像
      */
     private $avatar;
+    /**
+     * @var string 名字
+     */
+    private $first_name;
+    /**
+     * @var string 姓氏
+     */
+    private $last_name;
+    private $phone;
+    /**
+     * @var string 机构
+     */
+    private $employer;
+    /**
+     * @var string 简介
+     */
+    private $description;
 
     /**
      * @return string
@@ -63,7 +80,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @param int $id
      */
-    public function setId( $id)
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -79,7 +96,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @param string $token
      */
-    public function setToken( $token)
+    public function setToken($token)
     {
         $this->token = $token;
     }
@@ -147,6 +164,88 @@ class UbanUserModel implements \JsonSerializable
     {
         $this->account = $account;
     }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param string $first_name
+     */
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param string $last_name
+     */
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmployer()
+    {
+        return $this->employer;
+    }
+
+    /**
+     * @param string $employer
+     */
+    public function setEmployer($employer)
+    {
+        $this->employer = $employer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
 
     public function jsonSerialize()
     {
