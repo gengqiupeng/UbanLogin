@@ -6,6 +6,12 @@ use think\facade\Db;
 
 class UbanUserService extends User
 {
+    private $config;
+
+    public function __construct()
+    {
+        $this->config = $this->getConfig();
+    }
 
     public function isLogin()
     {
@@ -141,5 +147,28 @@ class UbanUserService extends User
         $account = $config->accountColumn;
         $where = "$account = '$email'";
         return $this->getUserAndRoleByWhere($field, $where);
+    }
+
+    public function changePassword($findWhere, $oldPassword, $newPassword)
+    {
+        $userTable = $this->config->userTable;
+        $passwordColumn = $this->config->passwordColumn;
+        $user = Db::name($userTable)->where($findWhere)->find();
+        if (empty($user)) {
+            return false;
+        }
+        if ($user[$passwordColumn] != $oldPassword) {
+            return false;
+        }
+        return Db::name($userTable)->where($findWhere)->update([$passwordColumn => $newPassword]);
+    }
+
+    public function getRoleArrayByUserId($userId)
+    {
+        $userRoleTable = $this->config->userRoleTable;
+        $userIdColumn = $this->config->roleUserIdColumn;
+        $roleIdColumn = $this->config->roleIdColumn;
+        $roles = Db::name($userRoleTable)->where($userIdColumn, $userId)->field($roleIdColumn)->select()->toArray();
+        return array_column($roles,$roleIdColumn);
     }
 }
