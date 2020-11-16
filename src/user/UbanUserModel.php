@@ -11,7 +11,7 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @var []string 用户角色
      */
-    private $roles;
+    private $role;
     /**
      * @var string 用户邮箱
      */
@@ -120,17 +120,17 @@ class UbanUserModel implements \JsonSerializable
     /**
      * @return int[]
      */
-    public function getRoles()
+    public function getRole()
     {
-        return $this->roles;
+        return $this->role;
     }
 
     /**
-     * @param mixed $roles
+     * @param mixed $role
      */
-    public function setRoles($roles)
+    public function setRole($role)
     {
-        $this->roles = $roles;
+        $this->role = $role;
     }
 
     /**
