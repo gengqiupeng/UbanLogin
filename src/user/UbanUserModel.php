@@ -52,6 +52,26 @@ class UbanUserModel implements \JsonSerializable
      * @var string 简介
      */
     private $description;
+    /**
+     * @var string 称谓
+     */
+    private $title;
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
     /**
      * @return string
