@@ -113,7 +113,7 @@ class UbanLoginService extends Login
         $roleColumn = $this->config->roleIdColumn;
         $roles = Db::name($table)->where("$userIdColumn=$user_id")->select()->toArray();
         $role = array_column($roles, $roleColumn);
-        $this->user->setRole($role);
+        $this->user->setRoles($role);
         UbanUserTool::setUser($this->user);
         return $this;
     }
@@ -126,7 +126,7 @@ class UbanLoginService extends Login
     public function setRoleByString($role)
     {
         $role = explode(",", $role);
-        $this->user->setRole($role);
+        $this->user->setRoles($role);
         return $this;
     }
 
