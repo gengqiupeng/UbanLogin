@@ -12,16 +12,16 @@ use think\facade\Session;
  */
 class UbanLoginService extends Login
 {
-    private $rawUser;
+    protected $rawUser;
 
-    private $config;
-    private $table;
-    private $accountColumn;
-    private $passwordColumn;
-    private $tokenColumn;
-    private $tokenExpire;
-    private $userIdColumn;
-    private $roleColumn;
+    protected $config;
+    protected $table;
+    protected $accountColumn;
+    protected $passwordColumn;
+    protected $tokenColumn;
+    protected $tokenExpire;
+    protected $userIdColumn;
+    protected $roleColumn;
 
     public function __construct()
     {
@@ -36,10 +36,11 @@ class UbanLoginService extends Login
         $this->roleColumn = $this->config->roleIdColumn;
     }
 
-    public function login($account, $password, $formatUser)
+    public function login($account, $password,$where, $formatUser)
     {
         $user = Db::name($this->table)->where("$this->accountColumn", $account)
             ->where("$this->passwordColumn", $password)
+            ->where($where)
             ->find();
         $this->rawUser = $user;
         if (empty($user)) {

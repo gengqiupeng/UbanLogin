@@ -18,7 +18,7 @@ abstract class Login extends BaseClass
      * @param $formatUser string 回调方法
      * @return mixed
      */
-    public abstract function login($account, $password,$formatUser);
+    public abstract function login($account, $password,$where,$formatUser);
 
     public abstract function register();
 
